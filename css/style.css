@@ -313,6 +313,9 @@ input, textarea { font-family: inherit; }
   color: var(--text-muted);
   margin-bottom: 48px;
 }
+.hero__role-highlight {
+  color: var(--gold);
+}
 .hero__actions {
   display: flex;
   gap: 14px;
