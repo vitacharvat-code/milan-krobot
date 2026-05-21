@@ -23,13 +23,31 @@ navLinks.querySelectorAll('.nav__link').forEach(link => {
   });
 });
 
+// --- Count-up animation ---
+function countUp(el) {
+  const target   = parseInt(el.dataset.count, 10);
+  const suffix   = el.dataset.suffix || '';
+  const duration = 1400;
+  const start    = performance.now();
+  const tick = (now) => {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased    = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
 // --- Scroll animations ---
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
     const el    = entry.target;
     const delay = parseInt(el.dataset.delay || '0', 10);
-    setTimeout(() => el.classList.add('visible'), delay);
+    setTimeout(() => {
+      el.classList.add('visible');
+      el.querySelectorAll('[data-count]').forEach(countEl => countUp(countEl));
+    }, delay);
     observer.unobserve(el);
   });
 }, { threshold: 0.12 });

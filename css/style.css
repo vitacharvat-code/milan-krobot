@@ -48,10 +48,15 @@ input, textarea { font-family: inherit; }
   padding: 0 var(--pad);
 }
 .section { padding: var(--section-y) 0; }
-.section--alt { background: var(--surface); }
+.section--alt {
+  background: var(--surface);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.022) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
 
 /* --- Section typography --- */
-.eyebrow {
+.eyebrow,
+.hero__eyebrow {
   display: block;
   font-size: 0.7rem;
   font-weight: 600;
@@ -59,6 +64,18 @@ input, textarea { font-family: inherit; }
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 14px;
+}
+.eyebrow::before,
+.hero__eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 2px;
+  vertical-align: middle;
+  margin-right: 10px;
+  margin-bottom: 2px;
 }
 .section-title {
   font-family: var(--font-display);
@@ -208,6 +225,22 @@ input, textarea { font-family: inherit; }
 .nav__burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* ============================================
+   HERO ENTRANCE ANIMATIONS
+   ============================================ */
+@keyframes heroPhotoIn {
+  from { opacity: 0; transform: scale(1.05); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes heroSlideIn {
+  from { opacity: 0; transform: translateX(-44px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
    HERO  – full-bleed photo layout
    ============================================ */
 .hero {
@@ -218,6 +251,16 @@ input, textarea { font-family: inherit; }
   align-items: center;
   overflow: hidden;
 }
+
+/* Apply entrance animations to hero children */
+.hero__photo       { animation: heroPhotoIn  1.2s var(--ease) 0.1s  both; }
+.hero__eyebrow     { animation: heroFadeUp   0.7s var(--ease) 0.35s both; }
+.hero__title-a     { display: inline-block;
+                     animation: heroSlideIn  0.8s var(--ease) 0.5s  both; }
+.hero__title-b     { animation: heroSlideIn  0.8s var(--ease) 0.65s both; }
+.hero__role        { animation: heroFadeUp   0.7s var(--ease) 0.85s both; }
+.hero__actions     { animation: heroFadeUp   0.7s var(--ease) 1.05s both; }
+.hero__scroll      { animation: heroFadeUp   0.7s var(--ease) 1.3s  both; }
 
 /* Right-side photo, full height */
 .hero__photo {
@@ -792,6 +835,70 @@ a.contact__item-value:hover { color: var(--gold); }
 .footer__nav a:hover { color: var(--gold); }
 
 /* ============================================
+   CTA BAND
+   ============================================ */
+.cta-band {
+  background: var(--gold);
+  padding: clamp(56px, 8vw, 96px) 0;
+  position: relative;
+  overflow: hidden;
+}
+.cta-band__dots {
+  position: absolute;
+  top: 50%;
+  right: 48px;
+  transform: translateY(-50%);
+  width: 120px;
+  height: 120px;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.18) 1.5px, transparent 1.5px);
+  background-size: 16px 16px;
+  pointer-events: none;
+}
+.cta-band__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.cta-band__eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.45);
+  margin-bottom: 12px;
+}
+.cta-band__eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 2px;
+  background: rgba(0,0,0,0.35);
+  border-radius: 2px;
+  vertical-align: middle;
+  margin-right: 10px;
+  margin-bottom: 2px;
+}
+.cta-band__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: #0b0b0b;
+  line-height: 1.18;
+}
+.btn--dark {
+  background: #0b0b0b;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.btn--dark:hover {
+  background: #1c1c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+}
+
+/* ============================================
    SCROLL ANIMATIONS
    ============================================ */
 [data-animate] {
@@ -855,6 +962,10 @@ a.contact__item-value:hover { color: var(--gold); }
   /* Contact */
   .contact__grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
+
+  /* CTA band */
+  .cta-band__inner { flex-direction: column; text-align: center; }
+  .cta-band__dots  { display: none; }
 
   /* Footer */
   .footer__inner { flex-direction: column; text-align: center; }
