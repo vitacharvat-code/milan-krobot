@@ -364,6 +364,28 @@ input, textarea { font-family: inherit; }
   gap: 14px;
   flex-wrap: wrap;
 }
+.hero__station {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  opacity: 0.42;
+  animation: heroFadeUp 0.7s var(--ease) 1.25s both;
+  transition: opacity 0.3s;
+}
+.hero__station:hover { opacity: 0.75; }
+.hero__station-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.hero__station-logo {
+  height: 30px;
+  width: auto;
+  mix-blend-mode: screen;
+}
 
 /* Scroll indicator */
 .hero__scroll {
