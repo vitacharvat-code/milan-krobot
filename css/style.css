@@ -286,7 +286,7 @@ input, textarea { font-family: inherit; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 72% 15%;
+  object-position: 65% 28%;
 }
 /* Gradient: heavy dark on left (text area), fade right to reveal Milan */
 .hero__photo::before {
