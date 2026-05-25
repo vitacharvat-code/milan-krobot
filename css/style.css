@@ -47,7 +47,7 @@ input, textarea { font-family: inherit; }
   margin: 0 auto;
   padding: 0 var(--pad);
 }
-.section { padding: var(--section-y) 0; }
+.section { padding: var(--section-y) 0; position: relative; }
 .section--alt {
   background: var(--surface);
   background-image: radial-gradient(circle, rgba(255,255,255,0.022) 1px, transparent 1px);
@@ -316,7 +316,7 @@ input, textarea { font-family: inherit; }
   pointer-events: none;
 }
 
-/* Arc decoration – bottom left, behind photo */
+/* Arc decoration – bottom left */
 .hero__arc {
   position: absolute;
   bottom: -80px;
@@ -326,11 +326,11 @@ input, textarea { font-family: inherit; }
   border-radius: 50%;
   background: radial-gradient(circle,
     transparent 58%,
-    rgba(200,162,40,0.18) 58%,
-    rgba(200,162,40,0.18) 70%,
+    rgba(200,162,40,0.22) 58%,
+    rgba(200,162,40,0.22) 70%,
     transparent 70%
   );
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -907,6 +907,72 @@ a.contact__item-value:hover { color: var(--gold); }
   background-size: 16px 16px;
   pointer-events: none;
 }
+/* ============================================
+   Decorative elements – cross-section
+   ============================================ */
+
+/* Services – dot grid top-left */
+#services { overflow: hidden; }
+.services__deco {
+  position: absolute;
+  top: 36px;
+  left: 36px;
+  width: 120px;
+  height: 120px;
+  background-image: radial-gradient(circle, rgba(200,162,40,0.28) 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+  pointer-events: none;
+}
+
+/* Gallery – arc ring bottom-right */
+#gallery { overflow: hidden; }
+.gallery__arc {
+  position: absolute;
+  bottom: -70px;
+  right: -70px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    transparent 58%,
+    rgba(200,162,40,0.16) 58%,
+    rgba(200,162,40,0.16) 70%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* References – dot grid top-right */
+#references { overflow: hidden; }
+.references__deco {
+  position: absolute;
+  top: 36px;
+  right: 36px;
+  width: 110px;
+  height: 110px;
+  background-image: radial-gradient(circle, rgba(200,162,40,0.22) 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+  pointer-events: none;
+}
+
+/* Contact – arc ring top-left */
+#contact { overflow: hidden; }
+.contact__arc {
+  position: absolute;
+  top: -90px;
+  left: -90px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    transparent 58%,
+    rgba(200,162,40,0.12) 58%,
+    rgba(200,162,40,0.12) 70%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
 .cta-band__inner {
   display: flex;
   align-items: center;
@@ -1009,6 +1075,10 @@ a.contact__item-value:hover { color: var(--gold); }
   .hero__scroll  { bottom: 16px; }
   .hero__dots    { display: none; }
   .hero__arc     { display: none; }
+  .services__deco   { display: none; }
+  .gallery__arc     { display: none; }
+  .references__deco { display: none; }
+  .contact__arc     { display: none; }
 
   /* About */
   .about__grid { grid-template-columns: 1fr; }
