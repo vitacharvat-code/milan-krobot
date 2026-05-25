@@ -436,12 +436,14 @@ input, textarea { font-family: inherit; }
 
 .about__stats {
   display: flex;
-  gap: 36px;
+  flex-wrap: wrap;
+  gap: 24px 36px;
   margin: 36px 0;
   padding: 28px 0;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
+.stat { flex: 1 1 80px; }
 .stat__num {
   display: block;
   font-family: var(--font-display);
@@ -455,6 +457,12 @@ input, textarea { font-family: inherit; }
   font-size: 0.78rem;
   color: var(--text-muted);
   margin-top: 5px;
+}
+.stat__label small {
+  display: block;
+  font-size: 0.68rem;
+  opacity: 0.55;
+  margin-top: 2px;
 }
 
 .about__tags {
