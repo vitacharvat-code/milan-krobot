@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://milan-krobot.vercel.app/sitemap.xml
