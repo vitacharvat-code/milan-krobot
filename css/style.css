@@ -613,9 +613,14 @@ input, textarea { font-family: inherit; }
    ============================================ */
 .references__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 24px;
 }
+/* Top row: 3 cards, each 1/3 */
+.references__grid .ref-card { grid-column: span 2; }
+/* Bottom row: 2 cards, each 1/2 */
+.references__grid .ref-card:nth-child(4),
+.references__grid .ref-card:nth-child(5) { grid-column: span 3; }
 .ref-card {
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -924,7 +929,8 @@ a.contact__item-value:hover { color: var(--gold); }
    ============================================ */
 @media (max-width: 1024px) {
   .gallery__grid { grid-template-columns: repeat(2, 1fr); }
-  .references__grid { grid-template-columns: repeat(2, 1fr); }
+  .references__grid { grid-template-columns: repeat(4, 1fr); }
+  .references__grid .ref-card { grid-column: span 2 !important; }
 }
 
 @media (max-width: 768px) {
@@ -966,6 +972,7 @@ a.contact__item-value:hover { color: var(--gold); }
 
   /* References */
   .references__grid { grid-template-columns: 1fr; }
+  .references__grid .ref-card { grid-column: span 1 !important; }
 
   /* Contact */
   .contact__grid { grid-template-columns: 1fr; }
