@@ -177,6 +177,16 @@ input, textarea { font-family: inherit; }
   z-index: 91;
 }
 .nav__logo span { color: var(--gold); }
+.nav__logo-station {
+  height: 24px;
+  width: auto;
+  margin-left: 14px;
+  vertical-align: middle;
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+.nav__logo:hover .nav__logo-station { opacity: 0.85; }
 
 .nav__links {
   display: flex;
@@ -302,16 +312,20 @@ input, textarea { font-family: inherit; }
   pointer-events: none;
 }
 
-/* Arc decoration – bottom left */
+/* Arc decoration – bottom left (radial-gradient ring, no dark fill) */
 .hero__arc {
   position: absolute;
   bottom: -80px;
   left: -80px;
-  width: 260px;
-  height: 260px;
-  border: 32px solid var(--gold);
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
-  opacity: 0.18;
+  background: radial-gradient(circle,
+    transparent 58%,
+    rgba(200,162,40,0.18) 58%,
+    rgba(200,162,40,0.18) 70%,
+    transparent 70%
+  );
   z-index: 0;
   pointer-events: none;
 }
