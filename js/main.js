@@ -137,8 +137,8 @@ contactForm.addEventListener('submit', async e => {
 
     if (data.success) {
       contactForm.reset();
-      formSuccess.hidden = false;
-      submitBtn.hidden   = true;
+      formSuccess.hidden        = false;
+      submitBtn.style.display   = 'none';
     } else {
       throw new Error(data.message || 'Server error');
     }
