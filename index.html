@@ -539,15 +539,14 @@
           </div>
         </div>
 
-        <!--
-          Kontaktní formulář využívá Formspree (https://formspree.io).
-          Pro aktivaci: zaregistrujte se na formspree.io, vytvořte nový formulář
-          a nahraďte YOUR_FORM_ID váším ID (např. xqkgdpzj).
-        -->
         <form class="contact__form" id="contactForm"
-              action="https://formspree.io/f/xvzybjkp"
+              action="https://api.web3forms.com/submit"
               method="POST"
               data-animate data-delay="100">
+          <input type="hidden" name="access_key" value="a9f100f7-a7bf-496e-8fc0-aab801810db1">
+          <input type="hidden" name="subject" value="Nová zpráva z webu – Milan Krobot">
+          <input type="hidden" name="from_name" value="Web Milan Krobot">
+          <input type="checkbox" name="botcheck" style="display:none">
           <div class="form-row">
             <div class="form-group">
               <label for="name" class="form-label">Jméno *</label>

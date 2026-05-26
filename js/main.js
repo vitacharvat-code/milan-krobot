@@ -123,29 +123,24 @@ const submitBtn   = document.getElementById('submitBtn');
 const formSuccess = document.getElementById('formSuccess');
 
 contactForm.addEventListener('submit', async e => {
-  if (contactForm.action.includes('YOUR_FORM_ID')) {
-    e.preventDefault();
-    alert('Formulář ještě není aktivní.\n\nPro zprovoznění: zaregistrujte se na formspree.io, vytvořte formulář a nahraďte YOUR_FORM_ID v index.html vaším ID.');
-    return;
-  }
-
   e.preventDefault();
   submitBtn.textContent = 'Odesílám…';
   submitBtn.disabled = true;
 
   try {
-    const res = await fetch(contactForm.action, {
+    const res  = await fetch(contactForm.action, {
       method: 'POST',
       body: new FormData(contactForm),
       headers: { Accept: 'application/json' },
     });
+    const data = await res.json();
 
-    if (res.ok) {
+    if (data.success) {
       contactForm.reset();
       formSuccess.hidden = false;
       submitBtn.hidden   = true;
     } else {
-      throw new Error('Server error');
+      throw new Error(data.message || 'Server error');
     }
   } catch {
     submitBtn.textContent = 'Odeslat zprávu';
