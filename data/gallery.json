@@ -1,0 +1,20 @@
+{
+  "photos": [
+    {"filename": "milan-1.jpg", "alt": "Milan Krobot, foto 1", "wide": false},
+    {"filename": "milan-2.jpg", "alt": "Milan Krobot, foto 2", "wide": false},
+    {"filename": "milan-3.jpg", "alt": "Milan Krobot, foto 3", "wide": false},
+    {"filename": "milan-4.jpg", "alt": "Milan Krobot, foto 4", "wide": false},
+    {"filename": "Milan%20Krobot-01.jpg", "alt": "Milan Krobot, foto 5", "wide": false},
+    {"filename": "Milan%20Krobot-02.jpg", "alt": "Milan Krobot, foto 6", "wide": false},
+    {"filename": "Milan%20Krobot-03.jpg", "alt": "Milan Krobot, foto 7", "wide": false},
+    {"filename": "Milan%20Krobot-05.jpg", "alt": "Milan Krobot, foto 8", "wide": false},
+    {"filename": "Milan%20Krobot-06.jpg", "alt": "Milan Krobot, foto 9", "wide": false},
+    {"filename": "modera_Milan_Krobot1.png", "alt": "Milan Krobot, foto 10", "wide": true},
+    {"filename": "modera_Milan_Krobot2.png", "alt": "Milan Krobot, foto 11", "wide": true},
+    {"filename": "modera_Milan_Krobot3.png", "alt": "Milan Krobot, foto 12", "wide": true},
+    {"filename": "modera_Milan_Krobot4.jpg", "alt": "Milan Krobot, foto 13", "wide": false},
+    {"filename": "modera_Milan_Krobot5.jpg", "alt": "Milan Krobot, foto 14", "wide": false},
+    {"filename": "modera_Milan_Krobot6.jpg", "alt": "Milan Krobot, foto 15", "wide": true},
+    {"filename": "Milan_Krobot_moderace.png", "alt": "Milan Krobot, foto 16", "wide": false}
+  ]
+}
