@@ -8,6 +8,19 @@ $galleryFile = __DIR__ . '/../data/gallery.json';
 $gallery = json_decode(file_get_contents($galleryFile), true);
 $photos = $gallery['photos'] ?? [];
 $success = $_GET['success'] ?? '';
+
+$textsFile = __DIR__ . '/../data/texts.json';
+$texts = file_exists($textsFile) ? json_decode(file_get_contents($textsFile), true) : [];
+
+// Define all editable sections
+$sections = [
+  'about' => 'O mně',
+  'services_intro' => 'Služby – úvod',
+  'service_1' => 'Služby – Moderování',
+  'service_2' => 'Služby – Divadlo a zpěv',
+  'service_3' => 'Služby – Film a televize',
+  'contact_intro' => 'Kontakt – úvodní text',
+];
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -229,6 +242,14 @@ $success = $_GET['success'] ?? '';
       object-fit: cover;
       border: 2px solid #c8a228;
     }
+
+    /* Drag & drop styles */
+    .photo-item.dragging { opacity: 0.5; }
+    .photo-item.drag-over {
+      background: #fffbf0;
+      border: 2px dashed #c8a228;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
@@ -266,13 +287,13 @@ $success = $_GET['success'] ?? '';
     </form>
   </div>
 
-  <!-- Aktuální galerie -->
+  <!-- Aktuální galerie s drag & drop -->
   <div class="card">
     <div class="card-title"><span>🗂️</span> Fotografie v galerii (<?= count($photos) ?>)</div>
-    <p style="font-size:0.85rem; color:#888; margin-bottom:4px;">Kliknutím na 🗑️ fotografii odstraníte.</p>
-    <div class="photos-grid">
+    <p style="font-size:0.85rem; color:#888; margin-bottom:12px;">Kliknutím na 🗑️ fotografii odstraníte. Přetáhněte fotky pro změnu pořadí.</p>
+    <div class="photos-grid" id="photosGrid">
       <?php foreach ($photos as $i => $photo): ?>
-        <div class="photo-item <?= $photo['wide'] ? 'wide' : '' ?>">
+        <div class="photo-item <?= $photo['wide'] ? 'wide' : '' ?>" draggable="true" data-filename="<?= htmlspecialchars($photo['filename']) ?>">
           <img src="../assets/images/<?= htmlspecialchars($photo['filename']) ?>"
                alt="<?= htmlspecialchars($photo['alt']) ?>"
                loading="lazy">
@@ -287,23 +308,17 @@ $success = $_GET['success'] ?? '';
     </div>
   </div>
 
-  <!-- Úprava textů -->
+  <!-- Úprava všech textů -->
   <div class="card">
-    <div class="card-title"><span>✏️</span> Texty – sekce „O mně"</div>
-    <?php
-      $textsFile = __DIR__ . '/../data/texts.json';
-      $texts = file_exists($textsFile) ? json_decode(file_get_contents($textsFile), true) : [];
-    ?>
+    <div class="card-title"><span>✏️</span> Texty – všechny sekce</div>
     <form action="save-texts.php" method="POST">
-      <div class="form-group">
-        <label class="form-label">Odstavec 1</label>
-        <textarea name="bio_1" rows="4"><?= htmlspecialchars($texts['bio_1'] ?? '') ?></textarea>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Odstavec 2</label>
-        <textarea name="bio_2" rows="4"><?= htmlspecialchars($texts['bio_2'] ?? '') ?></textarea>
-      </div>
-      <button type="submit" class="save-btn">Uložit texty</button>
+      <?php foreach ($sections as $key => $label): ?>
+        <div class="form-group">
+          <label class="form-label"><?= htmlspecialchars($label) ?></label>
+          <textarea name="<?= htmlspecialchars($key) ?>" rows="3" placeholder="Nechejte prázdné, pokud nechcete měnit..."><?= htmlspecialchars($texts[$key] ?? '') ?></textarea>
+        </div>
+      <?php endforeach; ?>
+      <button type="submit" class="save-btn">Uložit všechny texty</button>
     </form>
   </div>
 
@@ -345,6 +360,66 @@ setTimeout(() => {
   const n = document.getElementById('notice');
   if (n) n.classList.remove('show');
 }, 4000);
+
+// Drag & drop for photo reordering
+const photosGrid = document.getElementById('photosGrid');
+const photoItems = document.querySelectorAll('.photo-item');
+let draggedItem = null;
+
+photoItems.forEach(item => {
+  item.addEventListener('dragstart', (e) => {
+    draggedItem = item;
+    item.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+
+  item.addEventListener('dragend', () => {
+    draggedItem = null;
+    item.classList.remove('dragging');
+    document.querySelectorAll('.photo-item').forEach(el => el.classList.remove('drag-over'));
+  });
+
+  item.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    if (item !== draggedItem) {
+      item.classList.add('drag-over');
+    }
+  });
+
+  item.addEventListener('dragleave', () => {
+    item.classList.remove('drag-over');
+  });
+
+  item.addEventListener('drop', (e) => {
+    e.preventDefault();
+    item.classList.remove('drag-over');
+    if (item !== draggedItem) {
+      // Swap elements
+      const allItems = Array.from(photosGrid.children);
+      const draggedIdx = allItems.indexOf(draggedItem);
+      const targetIdx = allItems.indexOf(item);
+
+      if (draggedIdx < targetIdx) {
+        item.parentNode.insertBefore(draggedItem, item.nextSibling);
+      } else {
+        item.parentNode.insertBefore(draggedItem, item);
+      }
+
+      // Update order numbers
+      allItems.forEach((el, i) => {
+        el.querySelector('.photo-order').textContent = i + 1;
+      });
+
+      // Save new order via fetch
+      const newOrder = Array.from(photosGrid.children).map(el => el.dataset.filename);
+      fetch('reorder.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: newOrder })
+      });
+    }
+  });
+});
 </script>
 </body>
 </html>
