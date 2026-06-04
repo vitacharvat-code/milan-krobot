@@ -4,16 +4,47 @@ if (isset($_SESSION['admin_logged_in'])) {
     header('Location: panel.php');
     exit;
 }
+
+// Rate limiting & CSRF protection
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 $error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$failedAttempts = $_SESSION['login_attempts'] ?? 0;
+$lastAttemptTime = $_SESSION['last_attempt_time'] ?? 0;
+
+// Lock after 5 failed attempts for 5 minutes
+if ($failedAttempts >= 5) {
+    $timeSinceLastAttempt = time() - $lastAttemptTime;
+    if ($timeSinceLastAttempt < 300) { // 5 minutes
+        $error = 'Příliš mnoho pokusů. Zkuste později.';
+    } else {
+        $_SESSION['login_attempts'] = 0;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$error) {
+    // CSRF token validation
+    $token = $_POST['csrf_token'] ?? '';
+    if (empty($token) || $token !== $_SESSION['csrf_token']) {
+        http_response_code(403);
+        exit('Chyba bezpečnosti.');
+    }
+
     $password = $_POST['password'] ?? '';
     $hash = '5d284932eeb7ab619aac20a46dacf80e51a69c79eb624ae358778abf371b0a5a';
+
     if (hash('sha256', $password) === $hash) {
         $_SESSION['admin_logged_in'] = true;
+        $_SESSION['login_attempts'] = 0;
         header('Location: panel.php');
         exit;
     } else {
+        $_SESSION['login_attempts'] = ($failedAttempts ?? 0) + 1;
+        $_SESSION['last_attempt_time'] = time();
         $error = 'Nesprávné heslo.';
+        sleep(1); // Delay brute force attacks
     }
 }
 ?>
@@ -110,6 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="login-logo">Milan <span>Krobot</span></div>
       <div class="login-sub">Správa webu</div>
       <form method="POST">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
         <label for="password">Heslo</label>
         <input type="password" id="password" name="password" autofocus required>
         <?php if ($error): ?>
