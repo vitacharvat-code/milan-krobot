@@ -164,3 +164,43 @@ const sectionObserver = new IntersectionObserver((entries) => {
 }, { rootMargin: '-40% 0px -55% 0px' });
 
 sections.forEach(s => sectionObserver.observe(s));
+
+// --- Gallery: show 8 random, rest hidden ---
+const galleryGrid = document.querySelector('.gallery__grid');
+const loadMoreBtn = document.getElementById('galleryLoadMore');
+const allGalleryItems = document.querySelectorAll('.gallery__item');
+
+function initGallery() {
+  const total = allGalleryItems.length;
+  const showCount = 8;
+  const indices = Array.from({ length: total }, (_, i) => i);
+
+  // Shuffle and select 8 random
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  const visibleIndices = new Set(indices.slice(0, showCount));
+
+  // Hide items not in visible set
+  allGalleryItems.forEach((item, i) => {
+    if (!visibleIndices.has(i)) {
+      item.style.display = 'none';
+    }
+  });
+
+  // Show button if there are hidden items
+  if (total > showCount) {
+    loadMoreBtn.style.display = 'inline-block';
+  }
+}
+
+loadMoreBtn.addEventListener('click', () => {
+  // Show all hidden items
+  allGalleryItems.forEach(item => {
+    item.style.display = '';
+  });
+  loadMoreBtn.style.display = 'none';
+});
+
+initGallery();
