@@ -1,0 +1,6 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark background -->
+  <rect width="100" height="100" fill="#0b0b0b"/>
+  <!-- MK initials in gold -->
+  <text x="50" y="72" font-size="72" font-weight="700" fill="#c8a228" text-anchor="middle" font-family="Georgia, serif" letter-spacing="-2">MK</text>
+</svg>
