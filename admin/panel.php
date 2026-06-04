@@ -308,19 +308,6 @@ $sections = [
     </div>
   </div>
 
-  <!-- Úprava všech textů -->
-  <div class="card">
-    <div class="card-title"><span>✏️</span> Texty – všechny sekce</div>
-    <form action="save-texts.php" method="POST">
-      <?php foreach ($sections as $key => $label): ?>
-        <div class="form-group">
-          <label class="form-label"><?= htmlspecialchars($label) ?></label>
-          <textarea name="<?= htmlspecialchars($key) ?>" rows="3" placeholder="Nechejte prázdné, pokud nechcete měnit..."><?= htmlspecialchars($texts[$key] ?? '') ?></textarea>
-        </div>
-      <?php endforeach; ?>
-      <button type="submit" class="save-btn">Uložit všechny texty</button>
-    </form>
-  </div>
 
 </main>
 
