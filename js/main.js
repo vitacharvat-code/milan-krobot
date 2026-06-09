@@ -204,3 +204,26 @@ loadMoreBtn.addEventListener('click', () => {
 });
 
 initGallery();
+
+// --- Audio samples for references ---
+const audioSampleBtns = document.querySelectorAll('.audio-sample-btn');
+const audioPlayer = document.getElementById('audio-player');
+const audioSamples = {
+  'bmw': 'assets/audio/bmw.mp3',
+  'elementstore': 'assets/audio/elementstore.mp3',
+  'dmg-mori': 'assets/audio/dmg-mori.mp3',
+};
+
+if (audioPlayer) {
+  audioSampleBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const audioKey = btn.dataset.audio;
+      const audioSrc = audioSamples[audioKey];
+      if (audioSrc) {
+        audioPlayer.src = audioSrc;
+        audioPlayer.play();
+      }
+    });
+  });
+}
